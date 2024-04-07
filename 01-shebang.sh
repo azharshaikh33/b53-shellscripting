@@ -13,7 +13,7 @@
     # sh scriptName 
     # ./scriptName
 
-echo Hello Azhar 
+echo Hello Azhar Bhai
 echo This is first session of bash 
 echo We know how to run a  script
 
