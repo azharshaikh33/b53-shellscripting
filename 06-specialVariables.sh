@@ -11,3 +11,5 @@ echo second value is : $2
 echo third value is : $3
 
 echo "supplied vairables are $@"
+echo $#
+echo $$ # will print the current process id.
