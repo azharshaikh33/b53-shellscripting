@@ -4,4 +4,4 @@ echo line2
 echo line3
 
 echo -e "line1\nline2"
-echo -e lineA\n\tlineB
+echo -e "lineA\n\tlineB"
