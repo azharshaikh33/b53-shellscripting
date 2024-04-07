@@ -6,3 +6,7 @@ sample () {
     echo "I am a message called from sample function"
 }
 sample
+
+sample
+sample
+sample
