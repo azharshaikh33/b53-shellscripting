@@ -13,8 +13,8 @@ sample
 
 stat () {
     echo "Total number os session: $(who | wc -l)"
-    echo "Todat date is $(date +F%)"
-    echo " Load average of the system is $(uptime | awk -F : '{print $NF}' | awk -F , '{print $1}')"
+    echo "Today date is $(date +%F)"
+    echo "Load average of the system is $(uptime | awk -F : '{print $NF}' | awk -F , '{print $1}')"
     echo "stat function completed"
 }
 
