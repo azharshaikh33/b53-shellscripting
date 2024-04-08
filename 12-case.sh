@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ACTION=$1
+ACTION=$2
 
 case $ACTION in
 
