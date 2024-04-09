@@ -3,12 +3,19 @@
 set -e
 
 ID=$(id -u)
+
 if [ "$ID" -ne 0 ] ; then
     echo -e "\e[31m You should execute this script as a root user or with a sudo as a prefix \e[0m"
     exit 1
 fi    
 
+echo "Installing Nginx : "
 dnf install nginx -y &>> /tmp/frontend.log
+if [ $? -eq 0 ] ; then
+    echo -e "\e[32m Success \e[0m"
+else
+    echo -e "\e[31m Failure \e[0m"
+fi
 
 curl -s -L -o /tmp/frontend.zip "https://github.com/stans-robot-project/frontend/archive/main.zip"
 
