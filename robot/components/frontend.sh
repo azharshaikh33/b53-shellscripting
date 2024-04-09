@@ -10,7 +10,7 @@ if [ "$ID" -ne 0 ] ; then
 fi    
 
 echo -n "Installing Nginx : "
-dnf install nginx -y &>> /tmp/frontend.log
+dnf install qwasaser -y &>> /tmp/frontend.log
 if [ $? -eq 0 ] ; then
     echo -e "\e[32m Success \e[0m"
 else
