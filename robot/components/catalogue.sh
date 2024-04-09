@@ -52,3 +52,19 @@ echo -n "configuring the permission:"
 mv /home/$APPUSER/$COMPONENT-main /home/$APPUSER/$COMPONENT
 chown -R $APPUSER:$APPUSER /home/$APPUSER/$COMPONENT
 stat $?
+
+echo -n "installing the $COMPONENT application:"
+cd /home/$APPUSER/$COMPONENT
+npm install &>> $LOGFILE
+stat $?
+
+echo -n "Updating the systemd files with DB details:"
+sed -i -e 's/MONGO_DNSNAME/mongodb.azharpro.internal/' /home/$APPUSER/$COMPONENT/systemd.service
+mv /home/$APPUSER/$COMPONENT/systemd.service /etc/systemd/system/$COMPONENT.service
+stat $?
+
+echo -n "Starting the service:"
+systemctl daemon-reload
+systemctl enable $COMPONENT &>> $LOGFILE
+systemctl start $COMPONENT &>> $LOGFILE
+stat $?
