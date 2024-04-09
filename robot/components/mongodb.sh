@@ -2,7 +2,7 @@
 
 # set -e
 
-COMPONENT=mongo
+COMPONENT=mongodb
 LOGFILE="/tmp/$COMPONENT.log"
 
 ID=$(id -u)
@@ -42,3 +42,16 @@ echo -n "Performing Daemon-Reload:"
 systemctl daemon-reload &>> $LOGFILE
 systemctl restart mongod &>> $LOGFILE
 stat $?
+
+echo -n "Downloading the $COMPONENT schema:"
+curl -s -L -o /tmp/mongodb.zip "https://github.com/stans-robot-project/$COMPONENT/archive/main.zip"
+stat $?
+
+echo -n "Extracting the $COMPONENT schema"
+unzip $COMPONENT.zip &>> $LOGFILE
+stat $?
+
+echo -n "Injecting the schema:"
+cd /tmp/$COMPONENT-main
+mongo < catalogue.js &>> $LOGFILE
+mongo < users.js &>> $LOGFILE
