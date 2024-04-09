@@ -46,3 +46,7 @@ echo -n "extracting the $COMPONENT in the $APPUSER directory"
 cd /home/$APPUSER
 unzip -o /tmp/$COMPONENT.zip &>> $LOGFILE
 stat $?
+
+echo -n "configuring the permission:"
+mv /home/$APPUSER/$COMPONENT-main /home/$APPUSER?$COMPONENT
+chown -R $APPUSER:$APPUSER /home/$APPUSER/$COMPONENT
