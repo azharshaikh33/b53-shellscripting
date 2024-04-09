@@ -49,7 +49,7 @@ stat $?
 
 echo -n "Extracting the $COMPONENT schema"
 cd /tmp
-unzip -O $COMPONENT.zip &>> $LOGFILE
+unzip -o $COMPONENT.zip &>> $LOGFILE
 stat $?
 
 echo -n "Injecting the schema:"
