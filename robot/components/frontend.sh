@@ -3,7 +3,7 @@
 # set -e
 
 COMPONENT=frontend
-LOGFILE="/tmp/frontend.log"
+LOGFILE="/tmp/$COMPONENT.log"
 
 ID=$(id -u)
 
