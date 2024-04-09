@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# set -e
+
+COMPONENT=frontend
+LOGFILE="/tmp/frontend.log"
 
 ID=$(id -u)
 
@@ -8,56 +12,40 @@ if [ "$ID" -ne 0 ] ; then
     exit 1
 fi    
 
+stat() {
+    if [ $1 -eq 0 ] ; then
+        echo -e "\e[32m Success \e[0m"
+    else
+        echo -e "\e[31m Failure \e[0m"
+        exit 2
+    fi
+}
+
 echo -n "Installing Nginx : "
-dnf install nginx -y &>> /tmp/frontend.log
-if [ $? -eq 0 ] ; then
-    echo -e "\e[32m Success \e[0m"
-else
-    echo -e "\e[31m Failure \e[0m"
-    exit 2
-fi
+dnf install nginx -y &>> $LOGFILE
+stat $?
 
-echo -n "Downloading the frontend content : "
-curl -s -L -o /tmp/frontend.zip "https://github.com/stans-robot-project/frontend/archive/main.zip"
-if [ $? -eq 0 ] ; then
-    echo -e "\e[32m Success \e[0m"
-else
-    echo -e "\e[31m Failure \e[0m"
-    exit 2
-fi
+echo -n "Downloading the $COMPONENT content : "
+curl -s -L -o /tmp/$COMPONENT.zip "https://github.com/stans-robot-project/$COMPONENT/archive/main.zip"
+stat $?
 
-echo -n "Performing cleanup old frontend content :: "
+echo -n "Performing cleanup old $COMPONENT content : "
 cd /usr/share/nginx/html
-rm -rf * &>> /tmp/frontend.log
-if [ $? -eq 0 ] ; then
-    echo -e "\e[32m Success \e[0m"
-else
-    echo -e "\e[31m Failure \e[0m"
-    exit 2
-fi
+rm -rf * &>> $LOGFILE
+stat $?
 
-echo -n "Copying the downloaded frontend content: "
-unzip /tmp/frontend.zip &>> /tmp/frontend.log
-mv frontend-main/* .
+echo -n "Copying the downloaded $COMPONENT content: "
+unzip /tmp/$COMPONENT.zip &>> $LOGFILE
+mv $COMPONENT-main/* .
 mv static/* .
-rm -rf frontend-main README.md
+rm -rf $COMPONENT-main README.md
 mv localhost.conf /etc/nginx/default.d/roboshop.conf
-if [ $? -eq 0 ] ; then
-    echo -e "\e[32m Success \e[0m"
-else
-    echo -e "\e[31m Failure \e[0m"
-    exit 2
-fi
+stat $?
 
-echo -n "Starting the service:"
-systemctl enable nginx &>> /tmp/frontend.log
-systemctl restart nginx &>> /tmp/frontend.log
-if [ $? -eq 0 ] ; then
-    echo -e "\e[32m Success \e[0m"
-else
-    echo -e "\e[31m Failure \e[0m"
-    exit 2
-fi
+echo -n "Starting the service: "
+systemctl enable nginx &>> $LOGFILE
+systemctl restart nginx &>> $LOGFILE
+stat $?
 
 # curl -s -L -o /tmp/frontend.zip "https://github.com/stans-robot-project/frontend/archive/main.zip"
 
