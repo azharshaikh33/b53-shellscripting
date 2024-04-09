@@ -9,11 +9,12 @@ if [ "$ID" -ne 0 ] ; then
 fi    
 
 echo -n "Installing Nginx : "
-dnf install qwasaser -y &>> /tmp/frontend.log
+dnf install nginx -y &>> /tmp/frontend.log
 if [ $? -eq 0 ] ; then
     echo -e "\e[32m Success \e[0m"
 else
     echo -e "\e[31m Failure \e[0m"
+    exit 2
 fi
 
 curl -s -L -o /tmp/frontend.zip "https://github.com/stans-robot-project/frontend/archive/main.zip"
