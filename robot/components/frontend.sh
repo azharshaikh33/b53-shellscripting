@@ -49,7 +49,7 @@ else
     exit 2
 fi
 
-echo -n "Starting the service: "
+echo -n "Starting the service:"
 systemctl enable nginx &>> /tmp/frontend.log
 systemctl restart nginx &>> /tmp/frontend.log
 if [ $? -eq 0 ] ; then
