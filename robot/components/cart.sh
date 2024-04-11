@@ -59,7 +59,7 @@ npm install &>> $LOGFILE
 stat $?
 
 echo -n "Updating the systemd files with DB details:"
-sed -i -e 's/REDIS_ENDPOINT/mongodb.azharpro.internal/' -e 's/CATALOGUE_ENDPOINT/mongodb.azharpro.internal/' /home/$APPUSER/$COMPONENT/systemd.service
+sed -i -e 's/REDIS_ENDPOINT/redis.azharpro.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.azharpro.internal/' /home/$APPUSER/$COMPONENT/systemd.service
 mv /home/$APPUSER/$COMPONENT/systemd.service /etc/systemd/system/$COMPONENT.service
 stat $?
 
