@@ -26,5 +26,9 @@ if [ $? -ne 0 ] ; then
     stat $?
 fi
 
+echo -n "Adding required previliges to $APPUSER:"
+rabbitmqctl set_user_tags roboshop administrator
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+stat $?
 
 
