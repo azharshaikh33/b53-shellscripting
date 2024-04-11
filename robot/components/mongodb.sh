@@ -40,7 +40,7 @@ stat $?
 
 echo -n "Performing Daemon-Reload:"
 systemctl daemon-reload &>> $LOGFILE
-systemctl restart $COMPONENT &>> $LOGFILE
+systemctl restart mongod &>> $LOGFILE
 stat $?
 
 echo -n "Downloading the $COMPONENT schema:"
