@@ -60,7 +60,7 @@ NPM_INSTALL() {
 CONFIG_SVC() {
 
     echo -n "Updating the systemd files with DB details:"
-    sed -i -e 's/REDIS_ENDPOINT/redis.azharpro.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.azharpro.internal/' -e 's/MONGO_DNSNAME/mongodb.azharpro.internal/' -e 's/REDIS_ENDPOINT/redis.azharpro.internal/' -e 's/MONGO_ENDPOINT/mongodb.azharpro.internal/' /home/$APPUSER/$COMPONENT/systemd.service
+    sed -i -e 's/DBHOST/mysql.azharpro.internal/' -e 's/CARTENDPOINT/cart.azharpro.internal/' -e 's/REDIS_ENDPOINT/redis.azharpro.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.azharpro.internal/' -e 's/MONGO_DNSNAME/mongodb.azharpro.internal/' -e 's/REDIS_ENDPOINT/redis.azharpro.internal/' -e 's/MONGO_ENDPOINT/mongodb.azharpro.internal/' /home/$APPUSER/$COMPONENT/systemd.service
     mv /home/$APPUSER/$COMPONENT/systemd.service /etc/systemd/system/$COMPONENT.service
     stat $?
 
@@ -69,6 +69,28 @@ CONFIG_SVC() {
     systemctl enable $COMPONENT &>> $LOGFILE
     systemctl start $COMPONENT &>> $LOGFILE
     stat $?
+}
+
+MVN_PACKAGE() {
+    echo -n "installing the $COMPONENT package:"
+    cd /home/$APPUSER/$COMPONENT
+    npm clean package &>> $LOGFILE
+    mv target/shipping-1.0.jar shipping.jar
+    stat $?
+}
+
+JAVA () {
+    echo -n "Installing maven:"
+    dnf install maven -y &>> $LOGFILE
+    $?
+
+    CREATE_USER
+
+    DOWNLOAD_AND_EXTRACT
+
+    MVN_PACKAGE
+
+    CONFIG_SVC
 }
 
 NODEJS() {
