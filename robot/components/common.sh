@@ -74,7 +74,7 @@ CONFIG_SVC() {
 MVN_PACKAGE() {
     echo -n "installing the $COMPONENT package:"
     cd /home/$APPUSER/$COMPONENT
-    npm clean package &>> $LOGFILE
+    mvn clean package &>> $LOGFILE
     mv target/shipping-1.0.jar shipping.jar
     stat $?
 }
