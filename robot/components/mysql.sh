@@ -5,7 +5,7 @@
 COMPONENT=mysql
 source components/common.sh
 
-echo -n "Configuring the $COMPONENT repo:" &>> $LOGFILE
+echo -n "Configuring the $COMPONENT repo:"
 dnf module disable mysql -y &>> $LOGFILE
 curl -s -L -o /etc/yum.repos.d/mysql.repo https://raw.githubusercontent.com/stans-robot-project/mysql/main/mysql.repo
 stat $?
