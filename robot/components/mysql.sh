@@ -23,11 +23,11 @@ echo -n "Grab $COMPONENT default password:"
 DEFAULT_ROOT_PWD=$(grep "temporary password" /var/log/mysqld.log | awk '{print $NF}')
 stat $?
 
-echo "show databases;" | -uroot -pRoboShop@1 &>> $LOGFILE
+echo "show databases;" | mysql -uroot -pRoboShop@1 &>> $LOGFILE
 if [ $? -ne 0 ] ; then
 
     echo -n "Password reset of root user:"
-    echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboSHop@1';" | mysql --connect-expired-password -uroot -p${DEFAULT_ROOT_PWD} &>> $LOGFILE
+    echo "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';" | mysql --connect-expired-password -uroot -p${DEFAULT_ROOT_PWD} &>> $LOGFILE
     stat $?
 
 fi
