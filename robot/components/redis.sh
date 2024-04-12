@@ -3,24 +3,25 @@
 # set -e
 
 COMPONENT=redis
-LOGFILE="/tmp/$COMPONENT.log"
+source components/common.sh
+# LOGFILE="/tmp/$COMPONENT.log"
 
 
-ID=$(id -u)
+# ID=$(id -u)
 
-if [ "$ID" -ne 0 ] ; then
-    echo -e "\e[31m You should execute this script as a root user or with a sudo as a prefix \e[0m"
-    exit 1
-fi    
+# if [ "$ID" -ne 0 ] ; then
+#     echo -e "\e[31m You should execute this script as a root user or with a sudo as a prefix \e[0m"
+#     exit 1
+# fi    
 
-stat() {
-    if [ $1 -eq 0 ] ; then
-        echo -e "\e[32m Success \e[0m"
-    else
-        echo -e "\e[31m Failure \e[0m"
-        exit 2
-    fi
-}
+# stat() {
+#     if [ $1 -eq 0 ] ; then
+#         echo -e "\e[32m Success \e[0m"
+#     else
+#         echo -e "\e[31m Failure \e[0m"
+#         exit 2
+#     fi
+# }
 
 echo -n "Installing $COMPONENT repo:"
 dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y &>> $LOGFILE
