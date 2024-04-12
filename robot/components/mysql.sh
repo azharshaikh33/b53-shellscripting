@@ -41,3 +41,16 @@ if [ $? -eq 0 ] ; then
 
 fi
 
+echo -n "Downloading the $COMPONENT Schema:"
+curl -s -L -o /tmp/mysql.zip "https://github.com/stans-robot-project/mysql/archive/main.zip"
+stat $?
+
+echo -n "Extracting the $COMPONENT Schema:"
+cd /tmp
+unzip -o /tmp/$COMPONENT.zip &>> $LOGFILE
+stat $?
+
+echo -n "Injecting the schema:"
+mysql -u root -pRoboShop@1 <shipping.sql &>> $LOGFILE
+stat $?
+
