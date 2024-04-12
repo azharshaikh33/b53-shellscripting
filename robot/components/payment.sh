@@ -1,3 +1,7 @@
 #!/bin/bash
 
-echo "I am payment"
+# set -e
+
+COMPONENT=payment
+source components/common.sh
+

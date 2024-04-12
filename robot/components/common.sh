@@ -79,6 +79,23 @@ MVN_PACKAGE() {
     stat $?
 }
 
+PYTHON () {
+    echo -n "Installing Maven:"
+    dnf install python36 gcc python3-devel -y &>> $LOGFILE
+    stat $?
+
+    CREATE_USER
+
+    DOWNLOAD_AND_EXTRACT
+
+    echo -n "Installing $COMPONENT:"
+    cd /home/roboshop/payment 
+    pip3.6 install -r requirements.txt &>> $LOGFILE
+    stat $?
+
+
+}
+
 JAVA () {
     echo -n "Installing maven:"
     dnf install maven -y &>> $LOGFILE
