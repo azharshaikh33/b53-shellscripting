@@ -89,7 +89,7 @@ PYTHON () {
     DOWNLOAD_AND_EXTRACT
 
     echo -n "Installing $COMPONENT:"
-    cd /home/$APPUSER/$COMPONENT 
+    cd /home/${APPUSER}/${COMPONENT}/ 
     pip3.6 install -r requirements.txt &>> $LOGFILE
     stat $?
 
