@@ -60,7 +60,7 @@ NPM_INSTALL() {
 CONFIG_SVC() {
 
     echo -n "Updating the systemd files with DB details:"
-    sed -i -e 's/DBHOST/mysql.azharpro.internal/' -e 's/CARTENDPOINT/cart.azharpro.internal/' -e 's/REDIS_ENDPOINT/redis.azharpro.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.azharpro.internal/' -e 's/MONGO_DNSNAME/mongodb.azharpro.internal/' -e 's/REDIS_ENDPOINT/redis.azharpro.internal/' -e 's/MONGO_ENDPOINT/mongodb.azharpro.internal/' /home/$APPUSER/$COMPONENT/systemd.service
+    sed -i -e 's/AMQPHOST/rabbitmq.azharpro.internal/' -e 's/USERHOST/user.azharpro.internal/' -e 's/CARTHOST/CART.azharpro.internal/' -e 's/DBHOST/mysql.azharpro.internal/' -e 's/CARTENDPOINT/cart.azharpro.internal/' -e 's/REDIS_ENDPOINT/redis.azharpro.internal/' -e 's/CATALOGUE_ENDPOINT/catalogue.azharpro.internal/' -e 's/MONGO_DNSNAME/mongodb.azharpro.internal/' -e 's/REDIS_ENDPOINT/redis.azharpro.internal/' -e 's/MONGO_ENDPOINT/mongodb.azharpro.internal/' /home/$APPUSER/$COMPONENT/systemd.service
     mv /home/$APPUSER/$COMPONENT/systemd.service /etc/systemd/system/$COMPONENT.service
     stat $?
 
@@ -89,10 +89,17 @@ PYTHON () {
     DOWNLOAD_AND_EXTRACT
 
     echo -n "Installing $COMPONENT:"
-    cd /home/${APPUSER}/${COMPONENT}/ 
+    cd /home/$APPUSER/$COMPONENT 
     pip3.6 install -r requirements.txt &>> $LOGFILE
     stat $?
 
+    USERID =$(id -u roboshop)
+    GROUPID =$(id -g roboshop)
+
+    echo -n "updating the $COMPONENT:"
+    sed -e "/^uid/ c uid=$USERID" -e "/^gid/ c gid=$GROUPID" /home/$APPUSER/$COMPONENT/$COMPONENT.ini
+
+    CONFIG_SVC
 
 }
 
