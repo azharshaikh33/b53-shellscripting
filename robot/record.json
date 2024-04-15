@@ -1,9 +1,9 @@
 {
-    "Comment": "CREATE/DELETE/UPSERT a record ",
+    "Comment": "UPSERT a record ",
     "Changes": [{
     "Action": "UPSERT",
                 "ResourceRecordSet": {
-                            "Name": "COMPONENT.azharpro.internal",
+                            "Name": "COMPONENT.roboshop.internal",
                             "Type": "A",
                             "TTL": 10,
                          "ResourceRecords": [{ "Value": "IPADDRESS"}]
