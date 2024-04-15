@@ -2,7 +2,6 @@
 
 #This is script to launch EC2 servers and create the associated Route53 Record.
 
-COMPONENT=$1
 
 if [ -z "$1" ]; then
     echo -e "\e[31m Component Name is required \e[0m"
@@ -11,11 +10,13 @@ if [ -z "$1" ]; then
 
 fi
 
+COMPONENT=$1
+
 AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=DevOps-LabImage-Centos-8" | jq '.Images[].ImageId' | sed -e 's/"//g')
-SGID=$(aws ec2 describe-security-groups --filters Name=group-name,Values=b53-allow-all-sg | jq '.SecurityGroups[].GroupId" | sed 's/"//g')
+SGID=$(aws ec2 describe-security-groups --filters Name=group-name,Values=b53-allow-all-sg | jq '.SecurityGroups[].GroupId' | sed -e 's/"//g')
 
 echo -n "Launching the Instance with $AMI_ID as AMI :"
-aws ec2 run-instances --image-id $AMI_ID \
+aws ec2 run-instances --image-id ${AMI_ID} \
                       --instance-type t2.micro \
                       --security-group-ids ${SGID} \
-                      --tag-specifications "ResourceType=instance,Tags=[{Key=name,Value=$COMPONENT}]" | jq
+                      --tag-specifications "ResourceType=instance,Tags=[{Key=name,Value=$COMPONENT}]"
