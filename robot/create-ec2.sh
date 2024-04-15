@@ -12,8 +12,14 @@ if [ -z "$1" ]; then
 fi
 
 AMI_ID=$(aws ec2 describe-images --filters "Name=name,Values=DevOps-LabImage-Centos-8" | jq '.Images[].ImageId' | sed -e 's/"//g')
-echo "AMI ID is $AMI_ID"
+SGID=$(aws ec2 describe-security-groups --filters Name=group-name,Values=b53-allow-all-sg | jq ".SecurityGroups[].GroupId" | sed 's/"//g)
+
+echo AMI ID is $AMI_ID
 
 echo -n "Launching the Instance with $AMI_ID as AMI:"
-aws ec2 run-instances --image-id $AMI_ID --instance-type t2.micro --tag-specifications "ResourceType=instance,Tags=[{Key=name,Value=$COMPONENT}]" | jq
+aws ec2 run-instances \
+    --image-id $AMI_ID \
+    --instance-type t2.micro \
+    --security-group-ids $SGID \
+    --tag-specifications "ResourceType=instance,Tags=[{Key=name,Value=$COMPONENT}]" | jq
 stat $?
