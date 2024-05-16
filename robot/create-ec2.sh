@@ -31,7 +31,7 @@ IPADDRESS=$(aws ec2 run-instances --image-id ${AMI_ID} \
                       --instance-market-options "MarketType=spot, SpotOptions={SpotInstanceType=persistent,InstanceInterruptionBehavior=Stop}" \
                       --tag-specifications "ResourceType=instance,Tags=[{Key=name,Value=$COMPONENT-$ENV}]" | jq '.Instances[].PrivateIpAddress' | sed -e 's/"//g')
 
-sed -e "s/COMPONENT/${COMPONENT}-${ENV}/" -e "s/IPADDRESS/${IPADDRESS}/" robot/record.json > /tmp/record.json
+sed -e "s/COMPONENT/${COMPONENT}-${ENV}/" -e "s/IPADDRESS/${IPADDRESS}/" record.json > /tmp/record.json
 aws route53 change-resource-record-sets --hosted-zone-id $HOSTEDZONEID --change-batch file:///tmp/record.json | jq
 
 echo "*** Launching $COMPONENT Server completed ***"
