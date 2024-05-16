@@ -3,7 +3,7 @@
 #This is script to launch EC2 servers and create the associated Route53 Record.
 
 
-if [ -z "$1" ] || [ -z "$2"]; then
+if [ -z "$1" ] || [ -z "$2" ]; then
     echo -e "\e[31m Component Name is required \e[0m"
     echo -e "\t\t \e[32m Sample usage is: $ bash create-ec2.sh user dev \e[0m "
     exit 1
